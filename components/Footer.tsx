@@ -1,71 +1,120 @@
-import Link from "next/link";
-import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+// components/Footer.tsx
+'use client';
 
-const footerLinks = {
-  shop: ["New Arrivals", "Best Sellers", "Gift Guide", "Sale"],
-  support: ["FAQ", "Shipping", "Returns", "Contact"],
-  socials: ["Instagram", "Twitter", "Facebook", "YouTube"],
-};
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { FaFacebook, FaTwitter, FaInstagram, FaGithub } from 'react-icons/fa';
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-black text-zinc-200">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <h3 className="mb-4 text-lg font-semibold">Velmora</h3>
-            <p className="text-sm text-zinc-300">
-              Crafted for Everyday Luxury. Minimalist design with premium utility.
-            </p>
-          </div>
+    <footer className="bg-neutral-900 text-white mt-auto">
+      <div className="border-b border-neutral-800">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+              {/* Company Info */}
+              <div>
+                <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                  Velmora Store
+                </h3>
+                <p className="text-neutral-400 text-sm leading-relaxed">
+                  Your one-stop destination for quality products with exceptional customer service.
+                </p>
+              </div>
 
-          <div>
-            <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-zinc-300">Shop</h4>
-            <ul className="space-y-2 text-sm text-zinc-400">
-              {footerLinks.shop.map((item) => (
-                <li key={item}>
-                  <Link href="/shop" className="hover:text-white">
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+              {/* Quick Links */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+                <ul className="space-y-2 text-sm">
+                  <li>
+                    <Link href="/shop" className="text-neutral-400 hover:text-white transition-colors">
+                      Shop
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/about" className="text-neutral-400 hover:text-white transition-colors">
+                      About Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/contact" className="text-neutral-400 hover:text-white transition-colors">
+                      Contact
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/blog" className="text-neutral-400 hover:text-white transition-colors">
+                      Blog
+                    </Link>
+                  </li>
+                </ul>
+              </div>
 
-          <div>
-            <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-zinc-300">Support</h4>
-            <ul className="space-y-2 text-sm text-zinc-400">
-              {footerLinks.support.map((item) => (
-                <li key={item}>
-                  <Link href="/" className="hover:text-white">
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+              {/* Customer Service */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Customer Service</h3>
+                <ul className="space-y-2 text-sm">
+                  <li>
+                    <Link href="/faq" className="text-neutral-400 hover:text-white transition-colors">
+                      FAQ
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/shipping" className="text-neutral-400 hover:text-white transition-colors">
+                      Shipping Info
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/returns" className="text-neutral-400 hover:text-white transition-colors">
+                      Returns Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy" className="text-neutral-400 hover:text-white transition-colors">
+                      Privacy Policy
+                    </Link>
+                  </li>
+                </ul>
+              </div>
 
-          <div>
-            <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-zinc-300">Socials</h4>
-            <div className="flex items-center gap-3 text-zinc-400">
-              <Link href="https://instagram.com" aria-label="Instagram" className="hover:text-white">
-                <Instagram size={18} />
-              </Link>
-              <Link href="https://twitter.com" aria-label="Twitter" className="hover:text-white">
-                <Twitter size={18} />
-              </Link>
-              <Link href="https://facebook.com" aria-label="Facebook" className="hover:text-white">
-                <Facebook size={18} />
-              </Link>
-              <Link href="https://youtube.com" aria-label="YouTube" className="hover:text-white">
-                <Youtube size={18} />
-              </Link>
+              {/* Contact & Social */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Get in Touch</h3>
+                <ul className="space-y-2 text-sm text-neutral-400">
+                  <li>📍 Karachi, Pakistan</li>
+                  <li>📞 +92 123 4567890</li>
+                  <li>✉️ support@velmorastore.com</li>
+                </ul>
+                <div className="flex space-x-4 mt-4">
+                  <a href="#" className="text-neutral-400 hover:text-white transition-colors">
+                    <FaFacebook size={20} />
+                  </a>
+                  <a href="#" className="text-neutral-400 hover:text-white transition-colors">
+                    <FaTwitter size={20} />
+                  </a>
+                  <a href="#" className="text-neutral-400 hover:text-white transition-colors">
+                    <FaInstagram size={20} />
+                  </a>
+                  <a href="#" className="text-neutral-400 hover:text-white transition-colors">
+                    <FaGithub size={20} />
+                  </a>
+                </div>
+              </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-        <div className="mt-10 border-t border-white/10 pt-6 text-center text-sm text-zinc-400">
-          © {new Date().getFullYear()} Velmora. All rights reserved.
-        </div>
+      </div>
+
+      <div className="py-6 text-center">
+        <p className="text-sm text-neutral-400">
+          © {currentYear} Velmora Store. All rights reserved.
+        </p>
       </div>
     </footer>
   );

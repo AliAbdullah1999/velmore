@@ -1,0 +1,204 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User authentication
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  orders    Order[]
+  wishlist  WishlistItem[]
+  addresses Address[]
+  reviews   Review[]
+}
+
+// Products
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String
+  price       Float
+  salePrice   Float?
+  category    String
+  stock       Int      @default(0)
+  image       String
+  images      String[] // JSON array of image URLs
+  rating      Float    @default(0)
+  reviewCount Int      @default(0)
+  badge       String?  // "New", "Sale", "Best Seller"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  reviews     Review[]
+  orderItems  OrderItem[]
+  variants    ProductVariant[]
+}
+
+// Product variants (sizes, colors, etc.)
+model ProductVariant {
+  id        String  @id @default(cuid())
+  productId String
+  size      String
+  color     String?
+  sku       String  @unique
+  stock     Int
+
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+// Orders
+model Order {
+  id            String        @id @default(cuid())
+  orderNumber   String        @unique
+  userId        String
+  status        OrderStatus   @default(PENDING)
+  paymentStatus PaymentStatus @default(PENDING)
+  paymentMethod String        // "stripe", "paypal", "jazz_cash", "easypaisa", "hbl", "bank_transfer", "cod"
+  subtotal      Float
+  tax           Float
+  shippingCost  Float
+  total         Float
+  notes         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Relations
+  user          User          @relation(fields: [userId], references: [id])
+  items         OrderItem[]
+  payment       Payment?
+  shipping      ShippingInfo?
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  size      String?
+  price     Float   // Price at time of order
+  subtotal  Float
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+}
+
+// Payment processing
+model Payment {
+  id              String   @id @default(cuid())
+  orderId         String   @unique
+  amount          Float
+  currency        String   @default("PKR")
+  paymentMethod   String
+  transactionId   String?  @unique
+  stripePaymentId String?  @unique
+  paypalOrderId   String?  @unique
+  jazzCashTxnId   String?  @unique
+  easypaisaTxnId  String?  @unique
+  hblReference    String?
+  status          PaymentStatus @default(PENDING)
+  errorMessage    String?
+  metadata        String?  // JSON string for additional data
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+// Shipping information
+model ShippingInfo {
+  id        String  @id @default(cuid())
+  orderId   String  @unique
+  name      String
+  email     String
+  phone     String
+  address   String
+  city      String
+  province  String
+  zipCode   String
+  country   String @default("Pakistan")
+  carrier   String?
+  trackingNumber String?
+
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+// Customer addresses
+model Address {
+  id       String  @id @default(cuid())
+  userId   String
+  name     String
+  phone    String
+  address  String
+  city     String
+  province String
+  zipCode  String
+  isDefault Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Product reviews and ratings
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  userId    String
+  rating    Int      // 1-5
+  comment   String
+  createdAt DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Wishlist
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
+
+  user    User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+}
+
+// Newsletter subscriptions
+model Newsletter {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
