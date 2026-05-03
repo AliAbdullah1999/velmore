@@ -6,6 +6,14 @@ import Link from "next/link";
 import { ChevronDown, Sparkles } from "lucide-react";
 
 const words = ["Crafted", "for", "Everyday", "Luxury"];
+const particles = [
+  { initialX: "12vw", initialY: "18vh", animateX: "82vw", animateY: "26vh", duration: 16, delay: 0 },
+  { initialX: "28vw", initialY: "72vh", animateX: "66vw", animateY: "14vh", duration: 21, delay: 1.2 },
+  { initialX: "46vw", initialY: "30vh", animateX: "18vw", animateY: "78vh", duration: 18, delay: 2.4 },
+  { initialX: "63vw", initialY: "84vh", animateX: "92vw", animateY: "42vh", duration: 23, delay: 0.8 },
+  { initialX: "76vw", initialY: "12vh", animateX: "34vw", animateY: "64vh", duration: 19, delay: 3.1 },
+  { initialX: "88vw", initialY: "58vh", animateX: "10vw", animateY: "36vh", duration: 24, delay: 1.7 },
+];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -83,23 +91,23 @@ export default function HeroSection() {
 
       {/* Floating particles effect */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(6)].map((_, i) => (
+        {particles.map((particle, i) => (
           <motion.div
             key={i}
             initial={{
-              x: Math.random() * window?.innerWidth || 1000,
-              y: Math.random() * window?.innerHeight || 800,
+              x: particle.initialX,
+              y: particle.initialY,
               opacity: 0,
             }}
             animate={{
-              x: Math.random() * window?.innerWidth || 1000,
-              y: Math.random() * window?.innerHeight || 800,
+              x: particle.animateX,
+              y: particle.animateY,
               opacity: [0, 0.6, 0],
             }}
             transition={{
-              duration: Math.random() * 10 + 10,
+              duration: particle.duration,
               repeat: Infinity,
-              delay: Math.random() * 5,
+              delay: particle.delay,
             }}
             className="absolute h-1 w-1 rounded-full bg-white/20"
           />

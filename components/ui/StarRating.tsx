@@ -3,11 +3,14 @@ import { Star } from "lucide-react";
 interface StarRatingProps {
   rating: number;
   max?: number;
+  size?: "sm" | "md";
 }
 
-export default function StarRating({ rating, max = 5 }: StarRatingProps) {
+export default function StarRating({ rating, max = 5, size = "md" }: StarRatingProps) {
   const fullStars = Math.floor(rating);
   const hasHalf = rating - fullStars >= 0.5;
+  const iconSize = size === "sm" ? 14 : 16;
+  const textClassName = size === "sm" ? "ml-1 text-xs" : "ml-2 text-sm";
 
   return (
     <div className="flex items-center gap-1 text-amber-500">
@@ -16,7 +19,7 @@ export default function StarRating({ rating, max = 5 }: StarRatingProps) {
         return (
           <Star
             key={index}
-            size={16}
+            size={iconSize}
             className={
               i <= fullStars
                 ? "fill-current"
@@ -27,7 +30,9 @@ export default function StarRating({ rating, max = 5 }: StarRatingProps) {
           />
         );
       })}
-      <span className="ml-2 text-sm font-medium text-zinc-600">{rating.toFixed(1)}</span>
+      <span className={`${textClassName} font-medium text-zinc-600`}>
+        {rating.toFixed(1)}
+      </span>
     </div>
   );
 }
