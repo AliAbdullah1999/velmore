@@ -6,6 +6,7 @@ import Link from "next/link";
 import { X, Minus, Plus, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/lib/cart";
+import { formatPrice } from "@/lib/currency";
 
 interface CartDrawerProps {
   open: boolean;
@@ -95,7 +96,7 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
                                 <Plus size={12} />
                               </button>
                             </div>
-                            <span className="text-sm font-bold text-zinc-900">${(item.product.price * item.quantity).toFixed(2)}</span>
+                            <span className="text-sm font-bold text-zinc-900">{formatPrice(item.product.price * item.quantity)}</span>
                           </div>
                         </div>
                       </motion.div>
@@ -110,19 +111,19 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
               <div className="border-t border-zinc-100 px-5 py-5 space-y-4">
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between text-zinc-500">
-                    <span>Subtotal</span><span>${subtotal.toFixed(2)}</span>
+                    <span>Subtotal</span><span>{formatPrice(subtotal)}</span>
                   </div>
                   <div className="flex justify-between text-zinc-500">
                     <span>Shipping</span>
-                    <span>{shipping === 0 ? <span className="font-medium text-green-600">Free</span> : `$${shipping}`}</span>
+                    <span>{shipping === 0 ? <span className="font-medium text-green-600">Free</span> : formatPrice(shipping)}</span>
                   </div>
                   {shipping > 0 && (
                     <p className="text-xs text-zinc-500">
-                      Add <span className="font-semibold text-zinc-700">${(150 - subtotal).toFixed(2)}</span> more for free shipping
+                      Add <span className="font-semibold text-zinc-700">{formatPrice(150 - subtotal)}</span> more for free shipping
                     </p>
                   )}
                   <div className="flex justify-between border-t border-zinc-100 pt-2 text-base font-bold text-zinc-900">
-                    <span>Total</span><span>${(subtotal + shipping).toFixed(2)}</span>
+                    <span>Total</span><span>{formatPrice(subtotal + shipping)}</span>
                   </div>
                 </div>
                 <Link

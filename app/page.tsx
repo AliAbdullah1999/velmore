@@ -4,7 +4,7 @@ import FeaturedProductsSection from "@/components/sections/FeaturedProductsSecti
 import NewsletterForm from "@/components/ui/NewsletterForm";
 
 const perks = [
-  { icon: "🚚", title: "Free Shipping", desc: "On orders over $150" },
+  { icon: "🚚", title: "Free Shipping", desc: "On orders over PKR 150" },
   { icon: "↩️", title: "Easy Returns", desc: "30-day hassle-free" },
   { icon: "🔒", title: "Secure Payments", desc: "SSL encrypted" },
   { icon: "✦", title: "Premium Quality", desc: "Curated essentials" },

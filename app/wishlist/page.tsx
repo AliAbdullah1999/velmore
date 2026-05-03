@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 import { useWishlistStore } from "@/lib/wishlist";
 import { useCartStore } from "@/lib/cart";
+import { formatPrice } from "@/lib/currency";
 import StarRating from "@/components/ui/StarRating";
 
 export default function WishlistPage() {
@@ -64,7 +65,7 @@ export default function WishlistPage() {
                     <StarRating rating={product.rating} />
                   </div>
                   <div className="mt-3 flex items-center justify-between">
-                    <span className="text-lg font-bold text-zinc-900">${product.price}</span>
+                    <span className="text-lg font-bold text-zinc-900">{formatPrice(product.price)}</span>
                   </div>
                   <div className="mt-3 flex gap-2">
                     <button

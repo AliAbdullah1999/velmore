@@ -9,12 +9,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 import { products } from "@/lib/products";
 import { useCartStore } from "@/lib/cart";
+import { formatPrice } from "@/lib/currency";
 import StarRating from "@/components/ui/StarRating";
 
 const PRICE_RANGES = [
-  { label: "Under $100", min: 0, max: 100 },
-  { label: "$100 – $175", min: 100, max: 175 },
-  { label: "Over $175", min: 175, max: Infinity },
+  { label: "Under PKR 100", min: 0, max: 100 },
+  { label: "PKR 100 - PKR 175", min: 100, max: 175 },
+  { label: "Over PKR 175", min: 175, max: Infinity },
 ];
 
 function ShopContent() {
@@ -201,8 +202,8 @@ function ShopContent() {
                       </div>
                       <div className="mt-3 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <span className="text-lg font-bold text-zinc-900">${product.price}</span>
-                          {product.originalPrice && <span className="text-sm text-zinc-400 line-through">${product.originalPrice}</span>}
+                          <span className="text-lg font-bold text-zinc-900">{formatPrice(product.price)}</span>
+                          {product.originalPrice && <span className="text-sm text-zinc-400 line-through">{formatPrice(product.originalPrice)}</span>}
                         </div>
                         <button
                           onClick={() => { addItem(product, "M"); toast.success("Added to cart!"); }}

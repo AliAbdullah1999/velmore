@@ -11,6 +11,7 @@ import { products } from "@/lib/products";
 import { useCartStore } from "@/lib/cart";
 import { useWishlistStore } from "@/lib/wishlist";
 import { useRecentStore } from "@/lib/recent";
+import { formatPrice } from "@/lib/currency";
 import StarRating from "@/components/ui/StarRating";
 
 const mockReviews = [
@@ -139,8 +140,8 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">{product.name}</h1>
 
             <div className="mt-3 flex items-center gap-4">
-              <span className="text-3xl font-bold text-zinc-900">${product.price}</span>
-              {product.originalPrice && <span className="text-lg text-zinc-400 line-through">${product.originalPrice}</span>}
+              <span className="text-3xl font-bold text-zinc-900">{formatPrice(product.price)}</span>
+              {product.originalPrice && <span className="text-lg text-zinc-400 line-through">{formatPrice(product.originalPrice)}</span>}
               {product.originalPrice && (
                 <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-600">
                   {Math.round((1 - product.price / product.originalPrice) * 100)}% OFF
@@ -199,7 +200,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                 onClick={handleAddToCart}
                 className="flex w-full items-center justify-center gap-2 rounded-xl bg-black px-6 py-4 text-sm font-semibold text-white transition hover:bg-zinc-800"
               >
-                <ShoppingBag size={18} /> Add to Cart — ${(product.price * quantity).toFixed(2)}
+                <ShoppingBag size={18} /> Add to Cart — {formatPrice(product.price * quantity)}
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.98 }}
@@ -212,7 +213,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 
             {/* Trust */}
             <div className="mt-8 grid grid-cols-3 gap-3 border-t border-zinc-100 pt-6 text-center text-xs text-zinc-500">
-              <div>🚚 Free over $150</div>
+              <div>🚚 Free over PKR 150</div>
               <div>↩️ 30-day returns</div>
               <div>🔒 Secure checkout</div>
             </div>
@@ -283,7 +284,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                       <h3 className="font-semibold text-zinc-900">{p.name}</h3>
                       <div className="mt-2 flex items-center justify-between">
                         <StarRating rating={p.rating} />
-                        <span className="font-bold text-zinc-900">${p.price}</span>
+                        <span className="font-bold text-zinc-900">{formatPrice(p.price)}</span>
                       </div>
                     </div>
                   </Link>
@@ -313,7 +314,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                     </div>
                     <div className="p-4">
                       <h3 className="text-sm font-semibold text-zinc-900">{p.name}</h3>
-                      <span className="mt-1 block font-bold text-zinc-900">${p.price}</span>
+                      <span className="mt-1 block font-bold text-zinc-900">{formatPrice(p.price)}</span>
                     </div>
                   </Link>
                 </motion.article>

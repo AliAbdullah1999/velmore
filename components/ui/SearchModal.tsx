@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { products } from "@/lib/products";
+import { formatPrice } from "@/lib/currency";
 
 interface SearchModalProps {
   open: boolean;
@@ -102,7 +103,7 @@ export default function SearchModal({ open, onClose }: SearchModalProps) {
                             <p className="text-xs text-zinc-400">{product.category}</p>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-sm font-bold text-zinc-900">${product.price}</span>
+                            <span className="text-sm font-bold text-zinc-900">{formatPrice(product.price)}</span>
                             <ArrowRight size={14} className="text-zinc-300" />
                           </div>
                         </Link>

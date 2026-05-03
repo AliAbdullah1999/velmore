@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ArrowLeft, Lock, CheckCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/lib/cart";
+import { formatPrice } from "@/lib/currency";
 
 export default function CheckoutPage() {
   const { items, totalPrice, clearCart } = useCartStore();
@@ -121,7 +122,7 @@ export default function CheckoutPage() {
               type="submit"
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-black py-4 text-sm font-semibold text-white transition hover:bg-zinc-800"
             >
-              <Lock size={16} /> Place Order · ${total.toFixed(2)}
+              <Lock size={16} /> Place Order · {formatPrice(total)}
             </button>
           </form>
 
@@ -141,20 +142,20 @@ export default function CheckoutPage() {
                     <p className="truncate text-sm font-medium text-zinc-900">{item.product.name}</p>
                     <p className="text-xs text-zinc-500">Size: {item.size}</p>
                   </div>
-                  <span className="text-sm font-semibold text-zinc-900">${(item.product.price * item.quantity).toFixed(2)}</span>
+                  <span className="text-sm font-semibold text-zinc-900">{formatPrice(item.product.price * item.quantity)}</span>
                 </div>
               ))}
             </div>
             <div className="mt-5 space-y-2 border-t border-zinc-100 pt-4 text-sm">
               <div className="flex justify-between text-zinc-600">
-                <span>Subtotal</span><span>${subtotal.toFixed(2)}</span>
+                <span>Subtotal</span><span>{formatPrice(subtotal)}</span>
               </div>
               <div className="flex justify-between text-zinc-600">
                 <span>Shipping</span>
-                <span>{shipping === 0 ? <span className="text-green-600 font-medium">Free</span> : `$${shipping.toFixed(2)}`}</span>
+                <span>{shipping === 0 ? <span className="text-green-600 font-medium">Free</span> : formatPrice(shipping)}</span>
               </div>
               <div className="flex justify-between border-t border-zinc-100 pt-2 text-base font-bold text-zinc-900">
-                <span>Total</span><span>${total.toFixed(2)}</span>
+                <span>Total</span><span>{formatPrice(total)}</span>
               </div>
             </div>
           </div>

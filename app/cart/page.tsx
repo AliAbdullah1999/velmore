@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/lib/cart";
+import { formatPrice } from "@/lib/currency";
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, totalPrice, clearCart } = useCartStore();
@@ -81,7 +82,7 @@ export default function CartPage() {
                           <Plus size={14} />
                         </button>
                       </div>
-                      <span className="font-bold text-zinc-900">${(item.product.price * item.quantity).toFixed(2)}</span>
+                      <span className="font-bold text-zinc-900">{formatPrice(item.product.price * item.quantity)}</span>
                     </div>
                   </div>
                 </motion.div>
@@ -95,19 +96,19 @@ export default function CartPage() {
             <div className="space-y-3 text-sm">
               <div className="flex justify-between text-zinc-600">
                 <span>Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>{formatPrice(subtotal)}</span>
               </div>
               <div className="flex justify-between text-zinc-600">
                 <span>Shipping</span>
-                <span>{shipping === 0 ? <span className="text-green-600 font-medium">Free</span> : `$${shipping.toFixed(2)}`}</span>
+                <span>{shipping === 0 ? <span className="text-green-600 font-medium">Free</span> : formatPrice(shipping)}</span>
               </div>
               {shipping > 0 && (
-                <p className="text-xs text-zinc-500">Add ${(150 - subtotal).toFixed(2)} more for free shipping</p>
+                <p className="text-xs text-zinc-500">Add {formatPrice(150 - subtotal)} more for free shipping</p>
               )}
               <div className="border-t border-zinc-100 pt-3">
                 <div className="flex justify-between text-base font-bold text-zinc-900">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>{formatPrice(total)}</span>
                 </div>
               </div>
             </div>

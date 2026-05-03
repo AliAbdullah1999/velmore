@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Heart, ShoppingCart, Eye } from "lucide-react";
 import { products } from "@/lib/products";
+import { formatPrice } from "@/lib/currency";
 import StarRating from "@/components/ui/StarRating";
 
 export default function FeaturedProductsSection() {
@@ -116,16 +117,16 @@ export default function FeaturedProductsSection() {
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="product-card-price">${product.price}</span>
+                      <span className="product-card-price">{formatPrice(product.price)}</span>
                       {product.originalPrice && (
                         <span className="product-card-price-original">
-                          ${product.originalPrice}
+                          {formatPrice(product.originalPrice)}
                         </span>
                       )}
                     </div>
                     {product.originalPrice && (
                       <div className="badge badge-success">
-                        Save ${(product.originalPrice - product.price).toFixed(0)}
+                        Save {formatPrice(product.originalPrice - product.price)}
                       </div>
                     )}
                   </div>
